@@ -33,7 +33,7 @@ response['results'].each do |movie_hash|
   title = movie_hash['title']
   puts "Seeding #{title}"
   overview = movie_hash['overview']
-  poster_url = "https://image.tmdb.org/t/p/w500" + movie_hash['poster_path']
+  poster_url = "https://image.tmdb.org/t/p/w500#{movie_hash['poster_path']}"
   rating = movie_hash['vote_average']
 
   Movie.create! title:, overview:, poster_url:, rating:
@@ -43,20 +43,21 @@ puts 'Done!'
 puts 'Creating lists'
 list_one = List.new(name: 'Listinha Bolada')
 list_two = List.new(name: 'La Listiña')
+list_three = List.new(name: 'One List to List them All')
 
 [list_one, list_two].each do |list|
   puts "Created list '#{list.name}'" if list.save!
 end
 puts 'Done!'
 
-
 puts 'Creating bookmarks'
 bk_one = Bookmark.new(list: list_one, movie: Movie.all[1], comment: 'Solid Movie')
 bk_two = Bookmark.new(list: list_two, movie: Movie.all[3], comment: 'Meh, not so great')
 bk_three = Bookmark.new(list: list_two, movie: Movie.all[7], comment: 'BEST MOVIE EVERRR')
 bk_four = Bookmark.new(list: list_two, movie: Movie.all[9], comment: '10/10 would watch again')
+bk_five = Bookmark.new(list: list_three, movie: Movie.all[12], comment: 'No wonder it got 13 Oscars...')
 
-[bk_one, bk_two, bk_three, bk_four].each do |bk|
+[bk_one, bk_two, bk_three, bk_four, bk_five].each do |bk|
   puts "Created bookmark on list '#{bk.list.name}' for '#{bk.movie.title}'" if bk.save!
 end
 puts 'Done!'

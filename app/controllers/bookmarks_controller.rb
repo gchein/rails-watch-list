@@ -2,18 +2,19 @@ class BookmarksController < ApplicationController
   before_action :set_parent_list, only: %i[new create]
   before_action :set_bookmark, only: %i[destroy]
 
-  def new
-    @bookmark = Bookmark.new
-  end
+  # def new
+  #   @bookmark = Bookmark.new
+  # end
 
   def create
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.list = @list
+    @bookmarks = @list.bookmarks
 
     if @bookmark.save
       redirect_to list_path(@list)
     else
-      render :new, status: :unprocessable_entity
+      render template: "lists/show", status: :unprocessable_entity
     end
   end
 
